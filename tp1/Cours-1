@@ -1,0 +1,6 @@
+Utilisation du TDD
+	
+pour les test : 
+	- given --> setUp()
+	- when --> a tester
+	- then --> test

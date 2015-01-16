@@ -1,0 +1,115 @@
+Notes de cours SVL - CTD1 - M. Nebut - janvier 2015
+
+Les différents types de test :
+- recette ou test d'acceptation (avec le client) ou test système :
+  test de l'application dans sa globalité
+- test unitaire : test des briques de base, cad les classes en objet,
+  prises indépendamment les unes des autres
+- test d'intégration : test des briques de base interagissant les unes
+  avec les autres
+- test de non régression : fait de relancer une batterie de test
+  pré-existants après toute modification de l'application pour
+  vérifier qu'on n'a pas introduit d'erreurs.
+
+Qu'est-ce qu'un test unitaire ? (= cas de test)
+C'est un morceau de code qui vérifie qu'un autre morceau de code
+fonctionne comme on attend qu'il le fasse. Un test contient
+généralement 3 parties :
+- la construction du monde (set up - given)
+- l'exécution du code à tester (invocation de méthode - when) à partir des
+  données du test (données de test)
+- l'oracle (then): assertion (= expression booléenne), inférée à partir du
+  cahier des charges) qui vaut vrai ssi le code à teste s'est bien
+  comporté. Le comportement de l'oracle lors de l'exécution produit un
+  verdict.
+
+Qu'exprime l'oracle ?
+- une expression booléenne indiquant la valeur de retour d'une
+  méthode, l'état d'un objet : assertEqual, assertTrue, etc
+- la levée d'une exception (assertRaise)
+- une interaction entre 2 objets (cf suite cours)
+
+Que dit le verdict ?
+(les couleurs font références aux outils de test qui ont une interface
+graphique indiquant visuellement le verdict, pas utilisés en SVL)
+- pass (green) : l'oracle est vrai
+- fail (red) : l'oracle est faux
+- error (red) : un problème s'est produit, l'oracle n'a pas été
+  exécuté, le test est inconclusif
+
+Que teste-t-on : 
+- on liste les fonctionnalités de l'application, on en choisit une, on
+  liste ses comportements, on teste chaque comportement
+- on réfléchit en terme de contrats : pre-conditions, post-condition
+  de méthode, invariant de classe
+- on teste les cas nominaux mais aussi les cas anormaux (cas de levée
+  d'exception)
+- on teste "les bornes" : documenter et tester les limites des
+  domaines des méthodes
+
+Quand teste-t-on ?
+Dans les cycles de développement en cascade : quand on a tout codé (et
+qu'on n'a plus de temps pour tester), le risque majeur étant d'écrire,
+le nez sur le code, un test faux qui valide un code faux.
+En SVL, on va tester suivant l'approche du TDD : le développeur écrit
+les tests unitaires avant le code. 
+
+Le mantra du TDD : red green refactor
+- on écrit un test (qui représente un comportement à valider = l'objectif de test)
+  [si compilation il y a, on écrit le plus petit code applicatif qui
+      permet de compiler le test]
+- on exécute le test, on vérifie qu'il échoue (rouge)
+- on écrit le code applicatif le plus petit (pas au sens du nombre
+  d'instructions mais au sens des concepts qu'il contient) qui fait
+  passer le test
+- on vérifie que le test passe (vert)
+- on réusine le code pour éviter les duplications
+
+Pourquoi commencer par un test qui échoue ?
+- la progression rouge-vert est bonne pour le moral
+- on évite les tests sans oracle, ou fichus de tels manières qu'ils ne
+  sont pas lancés (oubli du mot "test" pour nose, de @Test pour
+  Junit), ou issus d'un copier-coller d'un test qui passe déjà.
+
+Les avantages du TDD :
+- on a réfléchi avant de se lancer dans le code
+- on n'écrit que du code testé
+- on a par contruction une architecture testable
+- on progresse par petits pas testés
+- on évite les paniques de dernière minute
+- les tests peuvent servir de documentation
+
+Le TDD dans les méthodes agiles : approches qui préconisent un cycle
+de développement :
+- incrémental : fonctionnalité par fonctionnalité
+- itératif : on enchaîne les étapes du processus de dev sur des cycles
+  courts, avec validation fréquente par le client
+Avantages sur le dev en cascade :
+- évitent l'effet tunnel (les besoins du client évoluent pendant qu'on
+  lui construit un logiciel qui ne lui conviendra pas) : la seule
+  manière de valider une idée est de la réaliser et de la faire tester
+  par le client
+- évite de découvrir au codage un problème qui remet le design en péril
+
+
+Nommage des tests :
+- le nom du test doit permettre de comprendre ce qu'il teste (ne pas
+craindre les noms à rallonge)
+- d'une manière générale un test doit se lire facilement. Ne pas se
+lancer ds de la factorisation de code à outrance au détriment de la clarté.
+
+Organisation des tests :
+- en Python, pas de norme édictée, chacun choisit une organisation qui
+  lui convient et s'y tient. Il est néanmoins recommandé dans la doc
+  de unittest de ne pas mettre les tests dans le même module que les
+  sources. En SVL on choisit de stocker les tests dans un module
+  séparé. 
+- En Junit : la norme est de stocker les tests dans un répertoire
+  test, au même niveau que le répertoire src. 
+- En SVL on testera des comportements. Il est parfois recommandé
+  d'utiliser une classe de test par classe applicative, voire une
+  méthode de test par méthode applicative (ce qui coince si la méthode
+  présente plusieurs comportements). On fait comme on veut selon la
+  taille du code et la clarté des tests: on peut par exemple utiliser
+  une classe de test pour les différents comportements d'une même
+  fonctionnalité.
