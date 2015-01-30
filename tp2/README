@@ -1,0 +1,36 @@
+FRANQUENOUILLE Kevin
+DESSINGUE Pauline
+
++----------------- TP2 -----------------+
+|										|
+|  		Restaurant d'entreprise			|
+|										|
++---------------------------------------+
+
+
+PARTIE 1
+__________________________________________
+
+Fonctionnalités caisse :
+ - Visualiser solde     				+
+ - Visualiser le nb de ticket
+ - Payer avec un ticket repas
+ - Payer sans ticket repas
+ - Insérer une carte
+ - Ejecter carte
+ - Visualiser la valeur des tickets
+
+
+
+
+ TODO
+__________________________________________
+
+OK       - En TDD, tester et écrire Carte, ne devrait pas nécessiter de mock 
+OK       - Executer la doctest de Caisse pour tester l'intégration de Caisse avec la vraie carte
+En cours - Test en isolation : payer un repas en ticket pour Caisse
+En cours - Tester et écrire Carte en conséquence
+A faire  - Executer doctest
+
+
+
