@@ -5,8 +5,9 @@ from admin import *
 class TestCalculerLogin(unittest.TestCase):
 	
 	def setUp(self):
-		self.admin = Admin()
 		self.base = mock()
+		self.admin = Admin(self.base)
+		
 
 
 
@@ -22,6 +23,8 @@ class TestCalculerLogin(unittest.TestCase):
 		"""
 		Le calcul du login est OK avec le nom tronqué à 8.
 		"""
+		login = "franquen"
+		when(self.base).loginExisteEnBase(login).thenReturn(False)
 		self.assertEqual(self.admin.calculerLogin("Franquenouille", "Kevin"), "franquen")
 
 
@@ -45,4 +48,12 @@ class TestCalculerLogin(unittest.TestCase):
 		Le login composé des 7 premières lettres du nom et l'initiale du prénom existe déjà.
 		Le calcul renvoie alors une exception.
 		"""
-		
+		loginExistant = "franquen"
+		loginExistant2 = "kfranque"
+		when(self.base).loginExisteEnBase(loginExistant).thenReturn(True)
+		when(self.base).loginExisteEnBase(loginExistant2).thenReturn(True)
+
+		self.assertRaises(CreationLoginAutomatiqueError,
+							self.admin.calculerLogin,
+							"Franquenouille", "Kevin")
+

@@ -1,7 +1,7 @@
 class Admin():
 
-	def __init__(self):
-		self.base = Base()
+	def __init__(self, base):
+		self.base = base
 
 	"""
 	Un nom et un prénom doivent contenir au minimum une lettre.
@@ -18,7 +18,8 @@ class Admin():
 			login = nom[:8].lower()
 
 		if self.base.loginExisteEnBase(login):
-			login = prenom[1] + login[:len(login)-1]
+			longueur = len(login)-1
+			login = prenom[0].lower() + login[:longueur]
 			if self.base.loginExisteEnBase(login):
 				raise CreationLoginAutomatiqueError()
 
@@ -34,19 +35,3 @@ class NomPrenomVideError(Exception):
 class CreationLoginAutomatiqueError(Exception):
 	pass
 
-
-
-
-class Base():
-
-	def __init__(self):
-		self.listeLogins = []
-
-	def loginExisteEnBase(self, login):
-		pass
-
-	def insererLogin(self, login):
-		pass
-
-	def supprimerLogin(self,login):
-		pass
