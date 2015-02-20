@@ -15,8 +15,9 @@ class TestJeu(unittest.TestCase):
 		self.j1 = mock()
 		self.j2 = mock()
 		self.boite = mock()
+		self.partie = mock()
 
-		self.jeu = Jeu(self.boite, self.j1, self.j2)
+		self.jeu = Jeu(self.boite, self.j1, self.j2, self.partie)
 
 
 	def test_jeu_est_termine_par_clapets(self):
@@ -30,8 +31,12 @@ class TestJeu(unittest.TestCase):
 
 		self.assertFalse(self.jeu.est_termine())
 
-	def test_le_joueur_lance_les_des_et_ne_peut_fermer_aucun_clapet(self):
-		pass
+	def test_le_joueur_lance_les_des_et_ferme_des_clapets(self):
+		when(self.j1).lancer_deux_des().thenReturn(6)
+		when(self.j1).proposer_des_clapets_a_fermer([1,5])
+		self.jeu.jouer_tout()
+		verify(self.boite).fermer_clapet(1)
+		verify(self.boite).fermer_clapet(5)
 
 	def test_le_joueur_lance_les_des_et_ferme_la_boite(self):
 		pass
@@ -43,7 +48,8 @@ class TestJeu(unittest.TestCase):
 #	la partie 
 
 class TestPartie(unittest.TestCase):
-	pass
+	def test_jouer_une_partie(self):
+		pass
 
 
 
@@ -72,7 +78,7 @@ class TestJoueur(unittest.TestCase):
 	def test_le_joueur_fait_une_proposition_de_clapets(self):
 		boite = mock()
 		lancer = 3
-		proposition_attendue = [[1,2],[2,1],[3]]
+		proposition_attendue = [1,2]
 
 		proposition = self.joueur.proposer_des_clapets_a_fermer(lancer, boite)
 

@@ -8,27 +8,40 @@ from random import *
  
 
 class Jeu:
-	def __init__(self, boite, joueur1, joueur2):
+	def __init__(self, boite, joueur1, joueur2, partie):
 		self.boite = boite
 		self.joueur1 = joueur1
 		self.joueur2 = joueur2
 		self.score1 = 0
 		self.score2 = 0
+		self.partie = partie
 
 	def est_termine(self):
 		return self.boite.est_totalement_fermee()
 
 	def jouer_tout(self):
-		pass
+		for i in range(1,10):
+			self.partie.jouer_une_partie(self.boite, self.joueur1, self.joueur2)
 
 
 
 class Partie:
-	def __init__(self):
-		pass
+		
+	def jouer_une_partie(self, boite, joueur1, joueur2):
+		joueurs = [joueur1, joueur2]
+		nb_joueurs = 2
 
-	def jouer_une_partie(self):
-		pass
+		# pour chaque joueur
+		# lancer les des jusqu'a etre bloque ou fermer la boire
+
+		for i in range(1, nb_joueurs):
+			joueur_est_bloque = False
+			while not joueur_est_bloque or not boite.est_totalement_fermee():
+				lance = joueurs[i].lancer_deux_des()
+				proposition = joueurs[i].proposer_des_clapets_a_fermer(lance, boite)
+				joueur_est_bloque = (proposition == [])
+				boite.fermer_clapet(proposition)
+
 
 
 
